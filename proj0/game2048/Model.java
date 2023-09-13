@@ -1,8 +1,6 @@
 package game2048;
 
-import java.util.Formatter;
-import java.util.Iterator;
-import java.util.Observable;
+import java.util.*;
 
 
 /** The state of a game of 2048.
@@ -100,26 +98,351 @@ public class Model extends Observable {
      * 1. If two Tile objects are adjacent in the direction of motion and have
      *    the same value, they are merged into one Tile of twice the original
      *    value and that new value is added to the score instance variable
+     *    如果两个 Tile 对象在运动方向上相邻且具有相同的值，则它们将合并为一个原始值两倍的 Tile，并将该新值添加到分数实例变量中
      * 2. A tile that is the result of a merge will not merge again on that
      *    tilt. So each move, every tile will only ever be part of at most one
-     *    merge (perhaps zero).
+     *    merge (perhaps zero). 作为合并结果的磁贴不会在该倾斜时再次合并。因此，每个移动，每个图块最多只能是一次合并的一部分（也许为零）。
      * 3. When three adjacent tiles in the direction of motion have the same
      *    value, then the leading two tiles in the direction of motion merge,
      *    and the trailing tile does not.
+     *    当运动方向上的三个相邻磁贴具有相同的值时，运动方向上的前导两个磁贴将合并，而尾随磁贴则不合并。
      * */
     public boolean tilt(Side side) {
         boolean changed;
         changed = false;
-
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
 
         checkGameOver();
+
+        if(!this.gameOver) {
+
+            if(side == Side.NORTH) {
+                changed = north();
+            }else if(side == Side.WEST) {
+                changed = west();
+            }else if(side == Side.EAST) {
+                changed = east();
+            }else if(side == Side.SOUTH) {
+                changed = south();
+            }
+
+        }
+
         if (changed) {
             setChanged();
         }
         return changed;
+    }
+
+    private boolean south() {
+
+        int size = this.board.size();
+        boolean changed = false;
+
+        for(int col=0; col<size; col++) {
+
+            Tile tempTile = null;
+            int currentNullRow = -1;
+            int currentNullCol = -1;
+
+            for(int row=0; row<size; row++) {
+                //北要往下合并,这样就可以避免3个格子的问题
+                Tile tile = this.board.tile(col, row);
+
+                if(tile == null) {
+
+                    if(currentNullCol == -1) {
+
+                        currentNullRow = row;
+                        currentNullCol = col;
+                    }
+
+                    continue;
+                }
+
+                if(tempTile == null) {
+
+                    if(currentNullCol != -1) {
+
+                        boolean move = this.board.move(currentNullCol, currentNullRow, tile);
+
+                        if(move) {
+                            changed = true;
+                        }
+
+                        tempTile = this.board.tile(currentNullCol, currentNullRow);
+                        currentNullCol = col;
+                        currentNullRow = row;
+                    }else {
+                        tempTile = this.board.tile(col, row);
+                    }
+
+
+                    System.out.println(this.board.toString());
+                    continue;
+                }
+                // tile is not null and currentTile is not null
+                if(tile.value() == tempTile.value()) {
+                    boolean move = this.board.move(tempTile.col(), tempTile.row(), tile);
+
+                    if(move){
+                        changed = true;
+                    }
+
+                    System.out.println(this.board.toString());
+
+                    if(currentNullCol == -1) {
+
+                        currentNullRow = row;
+                        currentNullCol = col;
+                    }
+
+                    tempTile = null;
+                    this.score += (tile.value() * 2);
+                }else{
+
+                    if(currentNullCol != -1) {
+                        boolean move = this.board.move(currentNullCol, currentNullRow, tile);
+
+                        if(move) {
+                            changed = true;
+                        }
+
+                        tempTile = this.tile(currentNullCol, currentNullRow);
+                        currentNullCol = col;
+                        currentNullRow = row;
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private boolean east() {
+
+        int size = this.board.size();
+        boolean changed = false;
+
+        for(int row=0; row<size; row++) {
+
+            Tile tempTile = null;
+            int currentNullRow = -1;
+            int currentNullCol = -1;
+
+            for(int col=size-1; col>=0; col--) {
+                //北要往下合并,这样就可以避免3个格子的问题
+                Tile tile = this.board.tile(col, row);
+
+                if(tile == null) {
+
+                    if(currentNullCol == -1) {
+
+                        currentNullRow = row;
+                        currentNullCol = col;
+                    }
+
+                    continue;
+                }
+
+                if(tempTile == null) {
+
+                    if(currentNullCol != -1) {
+
+                        this.board.move(currentNullCol, currentNullRow, tile);
+                        changed = true;
+                        tempTile = this.board.tile(currentNullCol, currentNullRow);
+                        currentNullCol = col;
+                        currentNullRow = row;
+                    }else {
+                        tempTile = this.board.tile(col, row);
+                    }
+
+                    System.out.println(this.board.toString());
+                    continue;
+                }
+                // tile is not null and currentTile is not null
+                if(tile.value() == tempTile.value()) {
+
+                    this.board.move(tempTile.col(), tempTile.row(), tile);
+                    changed = true;
+                    System.out.println(this.board.toString());
+
+                    if(currentNullCol == -1) {
+
+                        currentNullRow = row;
+                        currentNullCol = col;
+                    }
+
+                    tempTile = null;
+                    this.score += (tile.value() * 2);
+                }else{
+
+                    if(currentNullCol != -1) {
+
+                        this.board.move(currentNullCol, currentNullRow, tile);
+                        changed = true;
+                        tempTile = this.tile(currentNullCol, currentNullRow);
+                        currentNullCol = col;
+                        currentNullRow = row;
+                    }
+                }
+            }
+        }
+
+        return changed;
+    }
+
+    private boolean west() {
+
+        int size = this.board.size();
+        boolean changed = false;
+
+        for(int row=0; row<size; row++) {
+
+            Tile tempTile = null;
+            int currentNullRow = -1;
+            int currentNullCol = -1;
+
+            for(int col=0; col<size; col++) {
+                //北要往下合并,这样就可以避免3个格子的问题
+                Tile tile = this.board.tile(col, row);
+
+                if(tile == null) {
+
+                    if(currentNullCol == -1) {
+
+                        currentNullRow = row;
+                        currentNullCol = col;
+                    }
+
+                    continue;
+                }
+
+                if(tempTile == null) {
+
+                    if(currentNullCol != -1) {
+
+                        this.board.move(currentNullCol, currentNullRow, tile);
+                        changed = true;
+                        tempTile = this.board.tile(currentNullCol, currentNullRow);
+                        currentNullCol = col;
+                        currentNullRow = row;
+                    }else {
+                        tempTile = this.board.tile(col, row);
+                    }
+
+
+                    System.out.println(this.board.toString());
+                    continue;
+                }
+                // tile is not null and currentTile is not null
+                if(tile.value() == tempTile.value()) {
+                    this.board.move(tempTile.col(), tempTile.row(), tile);
+                    changed = true;
+                    System.out.println(this.board.toString());
+
+                    if(currentNullCol == -1) {
+
+                        currentNullRow = row;
+                        currentNullCol = col;
+                    }
+
+                    tempTile = null;
+                    this.score += (tile.value() * 2);
+                }else{
+
+                    if(currentNullCol != -1) {
+                        this.board.move(currentNullCol, currentNullRow, tile);
+                        changed = true;
+                        tempTile = this.tile(currentNullCol, currentNullRow);
+                        currentNullCol = col;
+                        currentNullRow = row;
+                    }
+                }
+            }
+        }
+
+        return changed;
+    }
+
+    private boolean north() {
+
+        int size = this.board.size();
+        boolean changed = false;
+
+        for(int col=0; col<size; col++) {
+
+            Tile tempTile = null;
+            int currentNullRow = -1;
+            int currentNullCol = -1;
+
+            for(int row=size-1; row>=0; row--) {
+                //北要往下合并,这样就可以避免3个格子的问题
+                Tile tile = this.board.tile(col, row);
+
+                if(tile == null) {
+
+                    if(currentNullCol == -1) {
+
+                        currentNullRow = row;
+                        currentNullCol = col;
+                    }
+
+                    continue;
+                }
+
+                if(tempTile == null) {
+
+                    if(currentNullCol != -1) {
+
+                        this.board.move(currentNullCol, currentNullRow, tile);
+                        changed = true;
+                        tempTile = this.board.tile(currentNullCol, currentNullRow);
+                        currentNullCol = col;
+                        currentNullRow = row;
+                    }else {
+                        tempTile = this.board.tile(col, row);
+                    }
+
+
+                    System.out.println(this.board.toString());
+                    continue;
+                }
+                // tile is not null and currentTile is not null
+                if(tile.value() == tempTile.value()) {
+                    this.board.move(tempTile.col(), tempTile.row(), tile);
+                    System.out.println(this.board.toString());
+                    changed = true;
+
+                    if(currentNullCol == -1) {
+
+                        currentNullRow = row;
+                        currentNullCol = col;
+                    }
+
+                    tempTile = null;
+                    this.score += (tile.value() * 2);
+                }else{
+
+                    if(currentNullCol != -1) {
+                        this.board.move(currentNullCol, currentNullRow, tile);
+                        changed = true;
+                        tempTile = this.tile(currentNullCol, currentNullRow);
+                        currentNullCol = col;
+                        currentNullRow = row;
+                    }
+                }
+            }
+        }
+
+        return changed;
+    }
+
+    private void test() {
+
     }
 
     /** Checks if the game is over and sets the gameOver variable
@@ -160,6 +483,17 @@ public class Model extends Observable {
      */
     public static boolean maxTileExists(Board b) {
         // TODO: Fill in this function.
+        Iterator<Tile> iterator = b.iterator();
+
+        while (iterator.hasNext()) {
+
+            Tile tile = iterator.next();
+            if (tile != null && tile.value() == MAX_PIECE) {
+                return true;
+
+            }
+        }
+
         return false;
     }
 
@@ -171,6 +505,41 @@ public class Model extends Observable {
      */
     public static boolean atLeastOneMoveExists(Board b) {
         // TODO: Fill in this function.
+        int size = b.size();
+
+        for(int row=0; row<size; row++) {
+            //遍历完整的行,但是列只需要遍历到 倒数第二列即可
+            for(int col=0; col<size-1; col++) {
+
+                Tile tile = b.tile(col, row);
+
+                if(tile != null) {
+                    //不为空要把当前值和上面的值以及右边的值比较一下，如果相等则说明可以继续游戏
+                    if(row < size-1) {
+
+                        Tile upTile = b.tile(col, row + 1);
+
+                        if (upTile == null) {
+                            return true;
+                        }else if(tile.value() == upTile.value()) {
+                            return true;
+                        }
+                    }
+
+                    Tile rightTile = b.tile(col + 1, row);
+
+                    if(rightTile == null){
+                        return true;
+                    }else if(tile.value() == rightTile.value()) {
+                        return true;
+                    }
+
+                }else {
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 
