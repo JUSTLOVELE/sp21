@@ -113,7 +113,7 @@ public class Model extends Observable {
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
-
+        System.out.println(this.board.toString());
         checkGameOver();
 
         if(!this.gameOver) {
@@ -213,6 +213,8 @@ public class Model extends Observable {
                         tempTile = this.tile(currentNullCol, currentNullRow);
                         currentNullCol = col;
                         currentNullRow = row;
+                    }else{
+                        tempTile = this.tile(col, row);
                     }
                 }
             }
@@ -287,6 +289,8 @@ public class Model extends Observable {
                         tempTile = this.tile(currentNullCol, currentNullRow);
                         currentNullCol = col;
                         currentNullRow = row;
+                    }else{
+                        tempTile = this.tile(col, row);
                     }
                 }
             }
@@ -360,6 +364,8 @@ public class Model extends Observable {
                         tempTile = this.tile(currentNullCol, currentNullRow);
                         currentNullCol = col;
                         currentNullRow = row;
+                    }else{
+                        tempTile = this.tile(col, row);
                     }
                 }
             }
@@ -433,11 +439,14 @@ public class Model extends Observable {
                         tempTile = this.tile(currentNullCol, currentNullRow);
                         currentNullCol = col;
                         currentNullRow = row;
+                    }else{
+                        tempTile = this.tile(col, row);
                     }
                 }
             }
         }
 
+        System.out.println(this.board.toString());
         return changed;
     }
 
