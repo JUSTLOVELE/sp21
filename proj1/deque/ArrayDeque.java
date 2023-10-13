@@ -24,7 +24,6 @@ public class ArrayDeque<T> implements Deque<T> {
      */
     public ArrayDeque() {
         arrays = (T[]) new Object[8];
-        //初始化nextFirst、nextLast
         this.nextFirst = item + 1;
         this.nextLast = item + 2;
     }
@@ -34,14 +33,10 @@ public class ArrayDeque<T> implements Deque<T> {
      * @param t
      */
     public void addFirst(T t) {
-        //要考虑nextFirst-1和nextLast重合,然后就要resize数组
-        //注意nextFirst和nextLast都是空位
-        //两个相邻的情况和first在头,last在尾的情况都是要扩展的
         if (this.size == this.arrays.length - 2) {
             //重新规划数组
             resizeWithIncrease();
         }
-        //要考虑nextFrist-1数组越界要插入到数组边界
         this.arrays[this.nextFirst] = t;
 
         if (this.nextFirst == 0) {
@@ -58,14 +53,9 @@ public class ArrayDeque<T> implements Deque<T> {
      * @param t
      */
     public void addLast(T t) {
-        //要考虑nextFirst和nextLast+1重合,然后就要resize数组
-        //注意nextFirst和nextLast都是空位
-        //两个相邻的情况和first在头,last在尾的情况都是要扩展的
         if (this.size == this.arrays.length - 2) {
-            //重新规划数组
             resizeWithIncrease();
         }
-        //要考虑nextLast+1数组越界要插入到数组边界
         this.arrays[this.nextLast] = t;
 
         if (this.nextLast == this.arrays.length - 1) {
@@ -132,19 +122,14 @@ public class ArrayDeque<T> implements Deque<T> {
         int index = 0;
 
         while (flag) {
-            //节点相邻
             if (this.nextFirst != this.nextLast) {
-                //这里还有个特殊情况,就是nextFirst在尾部节点,
                 if (this.nextFirst == this.arrays.length - 1) {
-                    //如果nextFirst走到了数组右边的边界,就置于0,置于0就相当于+1,所以这里就不加一了
                     this.nextFirst = 0;
                 } else {
-                    //因为nextFirst是空位,所以要+1才有值的
                     this.nextFirst++;
                 }
-                //先+1是因为0位留给nextFirst,因为nextFirst要是空位
                 if (this.arrays[this.nextFirst] != null) {
-                    index++; //从1开始把0留给nextFirst
+                    index++;
                     newArray[index] = this.arrays[this.nextFirst];
                 }
             } else {
@@ -153,7 +138,7 @@ public class ArrayDeque<T> implements Deque<T> {
         }
 
         this.nextFirst = 0;
-        this.nextLast = index + 1; //最后再加一是因为nextLast要是空的
+        this.nextLast = index + 1;
         this.arrays = newArray;
     }
 
@@ -166,7 +151,6 @@ public class ArrayDeque<T> implements Deque<T> {
         if (size * 2 > this.arrays.length) {
             return;
         }
-        //空置率至少一半,缩小25%
         int length = Double.valueOf(this.arrays.length * 0.75).intValue();
         T[] newArray = (T[]) new Object[length];
 
@@ -174,16 +158,13 @@ public class ArrayDeque<T> implements Deque<T> {
         int index = 0;
 
         while (flag) {
-            //为什么加一呢?因为nextFirst和nextLast是空的,加一如果相等意味着不能再往前了
             if (this.nextFirst != this.nextLast) {
 
                 if (this.nextFirst >= this.arrays.length - 1) {
-                    //如果nextFirst走到了数组右边的边界,就置于0
                     this.nextFirst = 0;
                 } else {
                     this.nextFirst++;
                 }
-                //先+1是因为0位留给nextFirst,因为nextFirst要是空位
                 if (this.arrays[this.nextFirst] != null) {
                     index++;
                     newArray[index] = this.arrays[this.nextFirst];
@@ -194,7 +175,7 @@ public class ArrayDeque<T> implements Deque<T> {
         }
 
         this.nextFirst = 0;
-        this.nextLast = index + 1; //最后再加一是因为nextLast要是空的
+        this.nextLast = index + 1;
         this.arrays = newArray;
 
     }
@@ -259,7 +240,7 @@ public class ArrayDeque<T> implements Deque<T> {
             return null;
         }
 
-        int n = this.nextFirst + 1 + index; //加1是因为nextFirst是为空,所以正式取值要+1
+        int n = this.nextFirst + 1 + index;
 
         if (n < this.arrays.length) {
             return this.arrays[n];

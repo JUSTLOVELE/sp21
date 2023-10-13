@@ -25,7 +25,6 @@ public class LinkedListDeque<T> implements Deque<T> {
     }
 
     private int size = 0;
-    //哨兵节点的prev就是最后一个元素
     private Node sentinel;
 
     /**
@@ -160,10 +159,9 @@ public class LinkedListDeque<T> implements Deque<T> {
 
             Node secondNode = firstNode.next;
             sentinel.next = secondNode;
-            secondNode.prev = null; //第二个元素就是新的第一个元素,所以second是没有上一个元素的
+            secondNode.prev = null;
 
         } else {
-            //第一个元素的next如果为空意味着这是第一个元素，所以要把sentienl的链表长度置为空
             sentinel.next = null;
             sentinel.prev = null;
         }
@@ -185,7 +183,6 @@ public class LinkedListDeque<T> implements Deque<T> {
         Node lastSecondNode = lastNode.prev;
 
         if(lastSecondNode == null) {
-            //因为是最后一个元素，所以其后一个元素如果为空则表示当前链表仅有一个元素
             sentinel.prev = null;
             sentinel.next = null;
         }else{
