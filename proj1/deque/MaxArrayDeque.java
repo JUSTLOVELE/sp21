@@ -1,13 +1,14 @@
 package deque;
 
+import java.util.Comparator;
+
 /**
- * @author yangzl 2023/10/11
+ * @author yangzl 2023/10/12
  * @version 1.00.00
  * @Description:
  * @history:
  */
-
-public class ArrayDeque<T> implements Deque<T> {
+public class MaxArrayDeque<T> {
 
     private int size = 0;
 
@@ -19,10 +20,88 @@ public class ArrayDeque<T> implements Deque<T> {
 
     private T[] arrays;
 
+    private Comparator<T> comparator;
+
+    private T maxValue = null;
+
+    public MaxArrayDeque(Comparator<T> c) {
+
+        comparator = c;
+        initMaxArrayDeque();
+    }
+
+    public T max() {
+        return maxValue;
+    }
+
+    public T max(Comparator<T> c) {
+
+        if(isEmpty()) {
+            return  null;
+        }
+
+
+
+        boolean flag = true;
+        int first = this.nextFirst + 1;
+        int last = this.nextLast;
+        T max = null;
+
+        while (flag) {
+
+            T v = this.arrays[first];
+
+            if(max == null) {
+                max = v;
+            }else {
+                if(c.compare(max, v)<0) {
+                    max = v;
+                }
+            }
+
+            first++;
+
+            if (first > this.arrays.length - 1) {
+                first = 0;
+            }
+
+            if (first == last) {
+                flag = false;
+            }
+        }
+
+        return max;
+    }
+
+    private void comparatorMaxValue(T value) {
+
+        if(this.comparator == null) {
+            return ;
+        }
+
+        if(maxValue == null) {
+
+            maxValue = value;
+            return;
+        }
+
+        if(comparator.compare(maxValue, value) < 0) {
+            maxValue = value;
+        }
+
+    }
+
     /**
      * Creates an empty linked list deque.
      */
-    public ArrayDeque() {
+    public MaxArrayDeque() {
+
+        arrays = (T[]) new Object[8];
+        initMaxArrayDeque();
+    }
+
+    private void initMaxArrayDeque() {
+
         arrays = (T[]) new Object[8];
         //初始化nextFirst、nextLast
         this.nextFirst = item + 1;
@@ -51,6 +130,7 @@ public class ArrayDeque<T> implements Deque<T> {
         }
 
         size++;
+        comparatorMaxValue(t);
     }
 
     /**
@@ -75,20 +155,21 @@ public class ArrayDeque<T> implements Deque<T> {
         }
 
         size++;
+        comparatorMaxValue(t);
     }
 
     /**
      * Returns true if deque is empty, false otherwise.
      * @return
      */
-//    public boolean isEmpty() {
-//
-//        if (size == 0) {
-//            return true;
-//        }
-//
-//        return false;
-//    }
+    public boolean isEmpty() {
+
+        if (size == 0) {
+            return true;
+        }
+
+        return false;
+    }
 
     /**
      * Returns the number of items in the deque.

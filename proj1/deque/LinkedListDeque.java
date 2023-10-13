@@ -6,7 +6,7 @@ package deque;
  * @Description:
  * @history:
  */
-public class LinkedListDeque<T> {
+public class LinkedListDeque<T> implements Deque<T> {
 
     class Node {
 
@@ -109,14 +109,14 @@ public class LinkedListDeque<T> {
      * Returns true if deque is empty, false otherwise.
      * @return
      */
-    public boolean isEmpty() {
-
-        if (size == 0) {
-            return true;
-        }
-
-        return false;
-    }
+//    public boolean isEmpty() {
+//
+//        if (size == 0) {
+//            return true;
+//        }
+//
+//        return false;
+//    }
 
     /**
      * Returns the number of items in the deque.
