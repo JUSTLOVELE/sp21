@@ -2,7 +2,10 @@ package deque;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author yangzl 2023/10/13
@@ -11,6 +14,22 @@ import java.util.Comparator;
  * @history:
  */
 public class MaxArrayDequeTest {
+
+    @Test
+    public void iteratorTest() {
+
+        List<Integer> array = new ArrayList<>();
+        array.add(1);
+        array.add(3);
+        array.add(4);
+        Iterator<Integer> iterator = array.iterator();
+
+        while(iterator.hasNext()) {
+            iterator.next();
+        }
+
+        System.out.println(iterator.next());
+    }
 
     @Test
     public void mTest() {

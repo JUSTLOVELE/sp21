@@ -1,5 +1,7 @@
 package deque;
 
+import java.util.Iterator;
+
 /**
  * @author yangzl 2023/10/13
  * @version 1.00.00
@@ -26,4 +28,6 @@ public interface Deque<T> {
     public T removeLast();
 
     public T get(int index);
+
+    public Iterator<T> iterator();
 }
