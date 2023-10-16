@@ -10,9 +10,9 @@ import java.util.NoSuchElementException;
  * @Description:
  * @history:
  */
-public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
+public class LinkedListDeque<T> implements Deque<T> {
 
-    class Node {
+    private class Node {
 
         private Node() {
 
@@ -212,8 +212,27 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         return lastNode.value;
     }
 
+    private class LinkDequeIterator implements Iterator<T> {
+
+        @Override
+        public boolean hasNext() {
+            return false;
+        }
+
+        @Override
+        public T next() {
+            return null;
+        }
+
+    }
+
+
     @Override
     public Iterator<T> iterator() {
+
+        if (isEmpty()) {
+            return new LinkDequeIterator();
+        }
 
         T[] objects = (T[]) new Object[this.size];
         Node n = sentinel;
@@ -238,11 +257,11 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
             return false;
         }
 
-        if (!(obj instanceof LinkedListDeque)) {
+        if (!(obj instanceof Deque)) {
             return false;
         }
 
-        LinkedListDeque<T> deque = (LinkedListDeque<T>) obj;
+        Deque<T> deque = (Deque<T>) obj;
         Iterator<T> iterator = deque.iterator();
         Iterator<T> arrayIterator = this.iterator();
 

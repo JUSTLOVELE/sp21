@@ -155,15 +155,9 @@ public class ArrayDequeTest {
     public void iteratorTest() {
 
         ArrayDeque<Integer> lld1 = new ArrayDeque<Integer>();
-        lld1.addFirst(2);
-        lld1.addFirst(3);
-        lld1.printDeque();
-        ArrayDeque<Integer> lld2 = new ArrayDeque<Integer>();
-        lld2.addFirst(2);
-        lld2.addFirst(3);
-        lld1.addFirst(4);
-        boolean equals = lld1.equals(lld2);
-        System.out.println(equals);
+        Iterator<Integer> iterator = lld1.iterator();
+        System.out.println(iterator.hasNext());
+        System.out.println(iterator.next());
     }
 
 }

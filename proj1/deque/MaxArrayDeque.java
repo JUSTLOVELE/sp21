@@ -43,8 +43,6 @@ public class MaxArrayDeque<T> implements Iterable<T> {
             return  null;
         }
 
-
-
         boolean flag = true;
         int first = this.nextFirst + 1;
         int last = this.nextLast;
@@ -386,11 +384,11 @@ public class MaxArrayDeque<T> implements Iterable<T> {
             return false;
         }
 
-        if (!(obj instanceof MaxArrayDeque)) {
+        if (!(obj instanceof Deque)) {
             return false;
         }
 
-        MaxArrayDeque<T> deque = (MaxArrayDeque<T>) obj;
+        Deque<T> deque = (Deque<T>) obj;
         Iterator<T> iterator = deque.iterator();
         Iterator<T> arrayIterator = this.iterator();
 
