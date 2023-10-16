@@ -384,23 +384,41 @@ public class MaxArrayDeque<T> implements Iterable<T> {
             return false;
         }
 
-        if (!(obj instanceof Deque)) {
+        if (obj instanceof ArrayDeque) {
+
+            ArrayDeque<T> deque = (ArrayDeque<T>) obj;
+            Iterator<T> iterator = deque.iterator();
+            Iterator<T> maxIterator = this.iterator();
+            return check(maxIterator, iterator);
+
+        } else if (obj instanceof LinkedListDeque) {
+
+            LinkedListDeque<T> deque = (LinkedListDeque<T>) obj;
+            Iterator<T> iterator = deque.iterator();
+            Iterator<T> maxIterator = this.iterator();
+            return check(maxIterator, iterator);
+        } else if (obj instanceof MaxArrayDeque) {
+
+            MaxArrayDeque<T> deque = (MaxArrayDeque<T>) obj;
+            Iterator<T> iterator = deque.iterator();
+            Iterator<T> maxIterator = this.iterator();
+            return check(maxIterator, iterator);
+        } else {
             return false;
         }
+    }
 
-        Deque<T> deque = (Deque<T>) obj;
-        Iterator<T> iterator = deque.iterator();
-        Iterator<T> arrayIterator = this.iterator();
+    private boolean check(Iterator<T> maxIterator, Iterator<T> iterator) {
 
         if (!iterator.hasNext() || !iterator.hasNext()) {
             return false;
         }
 
-        while (iterator.hasNext() || arrayIterator.hasNext()) {
+        while (iterator.hasNext() || maxIterator.hasNext()) {
 
             try {
                 T next = iterator.next();
-                T arrayNext = arrayIterator.next();
+                T arrayNext = maxIterator.next();
 
                 if (!arrayNext.equals(next)) {
                     return false;

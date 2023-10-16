@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
  * @history:
  */
 
-public class ArrayDeque<T> implements Deque<T> {
+public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     private int size = 0;
 
@@ -316,13 +316,25 @@ public class ArrayDeque<T> implements Deque<T> {
             return false;
         }
 
-        if (!(obj instanceof Deque)) {
+        if (obj instanceof ArrayDeque) {
+
+            ArrayDeque<T> deque = (ArrayDeque<T>) obj;
+            Iterator<T> iterator = deque.iterator();
+            Iterator<T> arrayIterator = this.iterator();
+            return check(arrayIterator, iterator);
+
+        } else if (obj instanceof LinkedListDeque) {
+
+            LinkedListDeque<T> deque = (LinkedListDeque<T>) obj;
+            Iterator<T> iterator = deque.iterator();
+            Iterator<T> arrayIterator = this.iterator();
+            return check(arrayIterator, iterator);
+        } else {
             return false;
         }
+    }
 
-        Deque<T> deque = (Deque<T>) obj;
-        Iterator<T> iterator = deque.iterator();
-        Iterator<T> arrayIterator = this.iterator();
+    private boolean check(Iterator<T> arrayIterator, Iterator<T> iterator) {
 
         if (!iterator.hasNext() || !iterator.hasNext()) {
             return false;
@@ -344,4 +356,5 @@ public class ArrayDeque<T> implements Deque<T> {
 
         return true;
     }
+
 }

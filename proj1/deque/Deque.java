@@ -6,7 +6,7 @@ package deque;
  * @Description:
  * @history:
  */
-public interface Deque<T> extends Iterable<T> {
+public interface Deque<T> {
 
     void addFirst(T item);
 

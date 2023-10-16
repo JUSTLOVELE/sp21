@@ -2,7 +2,6 @@ package deque;
 
 import org.junit.Test;
 
-import java.util.ArrayDeque;
 import java.util.Iterator;
 
 import static org.junit.Assert.*;
