@@ -1,6 +1,9 @@
 package deque;
 
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * @author yangzl 2023/10/12
@@ -36,7 +39,7 @@ public class MaxArrayDeque<T> {
 
     public T max(Comparator<T> c) {
 
-        if(isEmpty()) {
+        if (isEmpty()) {
             return  null;
         }
 
@@ -51,10 +54,10 @@ public class MaxArrayDeque<T> {
 
             T v = this.arrays[first];
 
-            if(max == null) {
+            if (max == null) {
                 max = v;
-            }else {
-                if(c.compare(max, v)<0) {
+            } else {
+                if (c.compare(max, v) < 0) {
                     max = v;
                 }
             }
@@ -75,17 +78,17 @@ public class MaxArrayDeque<T> {
 
     private void comparatorMaxValue(T value) {
 
-        if(this.comparator == null) {
-            return ;
+        if (this.comparator == null) {
+            return;
         }
 
-        if(maxValue == null) {
+        if (maxValue == null) {
 
             maxValue = value;
             return;
         }
 
-        if(comparator.compare(maxValue, value) < 0) {
+        if (comparator.compare(maxValue, value) < 0) {
             maxValue = value;
         }
 
@@ -190,12 +193,12 @@ public class MaxArrayDeque<T> {
 
         while (flag) {
 
-            System.out.print(this.arrays[first]);
-            first++;
-
             if (first > this.arrays.length - 1) {
                 first = 0;
             }
+
+            System.out.print(this.arrays[first]);
+            first++;
 
             if (first == last) {
                 flag = false;
@@ -347,5 +350,68 @@ public class MaxArrayDeque<T> {
         } else {
             return this.arrays[n - this.arrays.length];
         }
+    }
+
+
+    public Iterator<T> iterator() {
+
+        boolean flag = true;
+        int first = this.nextFirst + 1;
+        int last = this.nextLast;
+        T[] objects = (T[]) new Object[this.size];
+        int index = 0;
+
+        while (flag) {
+
+            if (first > this.arrays.length - 1) {
+                first = 0;
+            }
+
+            objects[index] = this.arrays[first];
+            first++;
+            index++;
+
+            if (first == last) {
+                flag = false;
+            }
+        }
+
+        return Arrays.stream(objects).iterator();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj == null) {
+            return false;
+        }
+
+        if (!(obj instanceof Deque)) {
+            return false;
+        }
+
+        Deque<T> deque = (Deque<T>) obj;
+        Iterator<T> iterator = deque.iterator();
+        Iterator<T> arrayIterator = this.iterator();
+
+        if (!iterator.hasNext() || !iterator.hasNext()) {
+            return false;
+        }
+
+        while (iterator.hasNext() || arrayIterator.hasNext()) {
+
+            try {
+                T next = iterator.next();
+                T arrayNext = arrayIterator.next();
+
+                if (!arrayNext.equals(next)) {
+                    return false;
+                }
+            } catch (NoSuchElementException e) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

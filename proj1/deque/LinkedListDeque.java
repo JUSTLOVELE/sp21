@@ -2,6 +2,7 @@ package deque;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * @author yangzl 2023/10/11
@@ -80,7 +81,7 @@ public class LinkedListDeque<T> implements Deque<T> {
         firstItemNode.next = next;
         size++;
 
-        if(sentinel.prev == null) {
+        if (sentinel.prev == null) {
             sentinel.prev = firstItemNode;
         }
     }
@@ -94,12 +95,12 @@ public class LinkedListDeque<T> implements Deque<T> {
         Node lastItemNode = new Node(item);
         Node n = sentinel.prev;
 
-        if(n != null) {
+        if (n != null) {
             n.next = lastItemNode;
             lastItemNode.prev = n;
             sentinel.prev = lastItemNode;
 
-        }else {
+        } else {
             //第一次插入
             sentinel.prev = lastItemNode;
             sentinel.next = lastItemNode;
@@ -107,19 +108,6 @@ public class LinkedListDeque<T> implements Deque<T> {
 
         size++;
     }
-
-    /**
-     * Returns true if deque is empty, false otherwise.
-     * @return
-     */
-//    public boolean isEmpty() {
-//
-//        if (size == 0) {
-//            return true;
-//        }
-//
-//        return false;
-//    }
 
     /**
      * Returns the number of items in the deque.
@@ -187,11 +175,11 @@ public class LinkedListDeque<T> implements Deque<T> {
         Node lastNode = sentinel.prev;
         Node lastSecondNode = lastNode.prev;
 
-        if(lastSecondNode == null) {
+        if (lastSecondNode == null) {
             //因为是最后一个元素，所以其后一个元素如果为空则表示当前链表仅有一个元素
             sentinel.prev = null;
             sentinel.next = null;
-        }else{
+        } else {
             sentinel.prev = lastSecondNode;
             lastNode.prev = null;
             lastSecondNode.next = null;
@@ -246,11 +234,11 @@ public class LinkedListDeque<T> implements Deque<T> {
     @Override
     public boolean equals(Object obj) {
 
-        if(obj == null) {
+        if (obj == null) {
             return false;
         }
 
-        if(!(obj instanceof Deque)) {
+        if (!(obj instanceof Deque)) {
             return false;
         }
 
@@ -258,20 +246,21 @@ public class LinkedListDeque<T> implements Deque<T> {
         Iterator<T> iterator = deque.iterator();
         Iterator<T> arrayIterator = this.iterator();
 
-        if(!iterator.hasNext() || !iterator.hasNext()) {
+        if (!iterator.hasNext() || !iterator.hasNext()) {
             return false;
         }
 
         while (iterator.hasNext() || arrayIterator.hasNext()) {
 
             try {
+
                 T next = iterator.next();
                 T arrayNext = arrayIterator.next();
 
-                if(!arrayNext.equals(next)) {
+                if (!arrayNext.equals(next)) {
                     return false;
                 }
-            }catch (Exception e) {
+            } catch (NoSuchElementException e) {
                 return false;
             }
         }

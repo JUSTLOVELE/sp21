@@ -2,6 +2,7 @@ package deque;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * @author yangzl 2023/10/11
@@ -21,6 +22,10 @@ public class ArrayDeque<T> implements Deque<T> {
     private int item = 0;
 
     private T[] arrays;
+
+    private static double ARRAY_FACTORY = 0.75;
+
+    private static int ARRAY_SIZE = 16;
 
     /**
      * Creates an empty linked list deque.
@@ -81,19 +86,6 @@ public class ArrayDeque<T> implements Deque<T> {
     }
 
     /**
-     * Returns true if deque is empty, false otherwise.
-     * @return
-     */
-//    public boolean isEmpty() {
-//
-//        if (size == 0) {
-//            return true;
-//        }
-//
-//        return false;
-//    }
-
-    /**
      * Returns the number of items in the deque.
      * @return
      */
@@ -112,12 +104,12 @@ public class ArrayDeque<T> implements Deque<T> {
 
         while (flag) {
 
-            System.out.print(this.arrays[first]);
-            first++;
-
             if (first > this.arrays.length - 1) {
                 first = 0;
             }
+
+            System.out.println(this.arrays[first]);
+            first++;
 
             if (first == last) {
                 flag = false;
@@ -162,7 +154,7 @@ public class ArrayDeque<T> implements Deque<T> {
 
     private void resizeIDecrease() {
 
-        if (this.arrays.length < 16) {
+        if (this.arrays.length < ARRAY_SIZE) {
             return;
         }
 
@@ -170,7 +162,7 @@ public class ArrayDeque<T> implements Deque<T> {
             return;
         }
         //空置率至少一半,缩小25%
-        int length = Double.valueOf(this.arrays.length * 0.75).intValue();
+        int length = Double.valueOf(this.arrays.length * ARRAY_FACTORY).intValue();
         T[] newArray = (T[]) new Object[length];
 
         boolean flag = true;
@@ -283,13 +275,13 @@ public class ArrayDeque<T> implements Deque<T> {
 
         while (flag) {
 
-            objects[index] = this.arrays[first];
-            first++;
-            index++;
-
             if (first > this.arrays.length - 1) {
                 first = 0;
             }
+
+            objects[index] = this.arrays[first];
+            first++;
+            index++;
 
             if (first == last) {
                 flag = false;
@@ -302,11 +294,11 @@ public class ArrayDeque<T> implements Deque<T> {
     @Override
     public boolean equals(Object obj) {
 
-        if(obj == null) {
+        if (obj == null) {
             return false;
         }
 
-        if(!(obj instanceof Deque)) {
+        if (!(obj instanceof Deque)) {
             return false;
         }
 
@@ -314,7 +306,7 @@ public class ArrayDeque<T> implements Deque<T> {
         Iterator<T> iterator = deque.iterator();
         Iterator<T> arrayIterator = this.iterator();
 
-        if(!iterator.hasNext() || !iterator.hasNext()) {
+        if (!iterator.hasNext() || !iterator.hasNext()) {
             return false;
         }
 
@@ -324,10 +316,10 @@ public class ArrayDeque<T> implements Deque<T> {
                 T next = iterator.next();
                 T arrayNext = arrayIterator.next();
 
-                if(!arrayNext.equals(next)) {
+                if (!arrayNext.equals(next)) {
                     return false;
                 }
-            }catch (Exception e) {
+            } catch (NoSuchElementException e) {
                 return false;
             }
         }
