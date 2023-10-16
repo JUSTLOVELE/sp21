@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
  * @Description:
  * @history:
  */
-public class MaxArrayDeque<T> {
+public class MaxArrayDeque<T> implements Iterable<T> {
 
     private int size = 0;
 
@@ -386,11 +386,11 @@ public class MaxArrayDeque<T> {
             return false;
         }
 
-        if (!(obj instanceof Deque)) {
+        if (!(obj instanceof MaxArrayDeque)) {
             return false;
         }
 
-        Deque<T> deque = (Deque<T>) obj;
+        MaxArrayDeque<T> deque = (MaxArrayDeque<T>) obj;
         Iterator<T> iterator = deque.iterator();
         Iterator<T> arrayIterator = this.iterator();
 

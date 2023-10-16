@@ -10,7 +10,7 @@ import java.util.NoSuchElementException;
  * @Description:
  * @history:
  */
-public class LinkedListDeque<T> implements Deque<T> {
+public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
 
     class Node {
 
@@ -238,11 +238,11 @@ public class LinkedListDeque<T> implements Deque<T> {
             return false;
         }
 
-        if (!(obj instanceof Deque)) {
+        if (!(obj instanceof LinkedListDeque)) {
             return false;
         }
 
-        Deque<T> deque = (Deque<T>) obj;
+        LinkedListDeque<T> deque = (LinkedListDeque<T>) obj;
         Iterator<T> iterator = deque.iterator();
         Iterator<T> arrayIterator = this.iterator();
 
