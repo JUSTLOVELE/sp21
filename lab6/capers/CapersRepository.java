@@ -1,7 +1,6 @@
 package capers;
 
 import java.io.File;
-import static capers.Utils.*;
 
 /** A repository for Capers 
  * @author TODO
@@ -32,6 +31,38 @@ public class CapersRepository {
      */
     public static void setupPersistence() {
         // TODO
+        String path = System.getProperty("user.dir");
+        path += "/.capers";
+        File file = new File(path);
+
+        if(!file.isDirectory()) {
+            file.mkdir();
+        }
+
+        String dogsPath = path + "/dogs";
+        File dogsFile = new File(dogsPath);
+
+        if(!dogsFile.exists()) {
+
+            try {
+                dogsFile.createNewFile();
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        String storyPath = path + "/story";
+
+        File storyFile = new File(storyPath);
+
+        if(!storyFile.exists()) {
+
+            try {
+                storyFile.createNewFile();
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -41,6 +72,13 @@ public class CapersRepository {
      */
     public static void writeStory(String text) {
         // TODO
+        String path = System.getProperty("user.dir");
+        path += "/.capers/story";
+        File file = new File(path);
+        String s = Utils.readContentsAsString(file);
+        s += "\n" + text;
+        Utils.writeContents(file, s);
+        System.out.println(s);
     }
 
     /**
