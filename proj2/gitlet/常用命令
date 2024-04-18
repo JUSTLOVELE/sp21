@@ -3,3 +3,5 @@ cd 进入proj2目录
 make check //运行检测测试
 make //编译
 make clean //清理class文件
+
+java gitlet.Main init
