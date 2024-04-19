@@ -28,6 +28,18 @@ import java.util.List;
  */
 class Utils {
 
+    public static final String BASE_PATH = System.getProperty("user.dir");
+
+    public static final String POINT_GITLET_PATH = BASE_PATH + "/.gitlet";
+
+    public static final String POINT_GITLET_TREE_PATH = POINT_GITLET_PATH + "/GitTreeModel";
+
+    public static final String POINT_GITLET_STAGE_MODEL_PATH = POINT_GITLET_PATH + "/StageModel";
+
+    public static final String POINT_GITLET_STAGE_PATH = POINT_GITLET_PATH + "/stage";
+
+    public static final String GITLET_PATH = BASE_PATH + "/gitlet";
+
     /** The length of a complete SHA-1 UID as a hexadecimal numeral. */
     static final int UID_LENGTH = 40;
 

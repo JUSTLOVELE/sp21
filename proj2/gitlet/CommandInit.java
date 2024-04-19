@@ -1,23 +1,18 @@
 package gitlet;
 
+import gitlet.persistence.Branch;
+import gitlet.persistence.GitCommitTree;
+import gitlet.persistence.stage.StageModel;
+
 import java.io.File;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Init {
-
-    public static final String BASE_PATH = System.getProperty("user.dir");
-
-    public static final String GITLET_PATH = BASE_PATH + "/.gitlet";
-
-    public static final String GITLET_MODEL_PATH = GITLET_PATH + "/model";
-
-    public static final String GITLET_MODEL_TREE_PATH = GITLET_MODEL_PATH + "/tree";
+public class CommandInit {
 
     public static void init() {
 
-        File file = new File(GITLET_PATH);
+        File file = new File(Utils.POINT_GITLET_PATH);
 
         if(!file.exists()) {
 
@@ -28,13 +23,21 @@ public class Init {
             commit.setMessage(null);
             //create branch
             Branch master = new Branch("master");
+            master.setHeader(commit);
+            //create tree
             GitCommitTree tree = new GitCommitTree();
             tree.setCurrentBranch(master);
             tree.getBranches().add(master);
-            file = new File(GITLET_MODEL_PATH);
-            file.mkdir();
-            file = new File(GITLET_MODEL_TREE_PATH);
+            //save GitCommitTree class
+            file = new File(Utils.POINT_GITLET_TREE_PATH);
             Utils.writeObject(file, tree);
+            //create stage
+            file = new File(Utils.POINT_GITLET_STAGE_PATH);
+            file.mkdir();
+            //
+            StageModel stageModel = new StageModel();
+            file = new File(Utils.POINT_GITLET_STAGE_MODEL_PATH);
+            Utils.writeObject(file, stageModel);
 
         }else{
             System.out.println("A Gitlet version-control system already exists in current directory.");

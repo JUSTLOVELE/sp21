@@ -1,5 +1,7 @@
-package gitlet;
+package gitlet.persistence;
 
+
+import gitlet.Commit;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,7 +13,6 @@ public class GitCommitTree implements Serializable {
 
     private Branch currentBranch;
 
-    private Commit header;
 
     public List<Branch> getBranches() {
         return branches;
@@ -27,22 +28,5 @@ public class GitCommitTree implements Serializable {
 
     public void setCurrentBranch(Branch currentBranch) {
         this.currentBranch = currentBranch;
-    }
-
-    public Commit getHeader() {
-        return header;
-    }
-
-    public void setHeader(Commit header) {
-        this.header = header;
-    }
-
-    @Override
-    public String toString() {
-        return "GitCommitTree{" +
-                "branches=" + branches +
-                ", currentBranch=" + currentBranch +
-                ", header=" + header +
-                '}';
     }
 }

@@ -5,3 +5,5 @@ make //编译
 make clean //清理class文件
 
 java gitlet.Main init
+java gitlet.Main add Hello.txt
+java gitlet.Main add World.txt

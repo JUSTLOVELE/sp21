@@ -14,10 +14,11 @@ public class Main {
         switch(firstArg) {
             case "init":
                 // TODO: handle the `init` command
-                Init.init();
+                CommandInit.init();
                 break;
             case "add":
                 // TODO: handle the `add [filename]` command
+                CommandAdd.add(args[1]);
                 break;
             // TODO: FILL THE REST IN
         }

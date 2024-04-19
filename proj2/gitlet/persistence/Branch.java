@@ -1,11 +1,15 @@
-package gitlet;
+package gitlet.persistence;
 
+
+import gitlet.Commit;
 
 import java.io.Serializable;
 
 public class Branch implements Serializable {
 
     private String name;
+
+    private Commit header;
 
     public Branch(String name) {
         this.name = name;
@@ -20,10 +24,11 @@ public class Branch implements Serializable {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "Branch{" +
-                "name='" + name + '\'' +
-                '}';
+    public Commit getHeader() {
+        return header;
+    }
+
+    public void setHeader(Commit header) {
+        this.header = header;
     }
 }
