@@ -1,9 +1,5 @@
 package gitlet;
 
-import gitlet.persistence.Branch;
-import gitlet.persistence.GitCommitTree;
-import gitlet.persistence.stage.StageModel;
-
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,10 +18,10 @@ public class CommandInit {
             commit.setDate(getInitDate());
             commit.setMessage(null);
             //create branch
-            Branch master = new Branch("master");
+            A_Branch master = new A_Branch("master");
             master.setHeader(commit);
             //create tree
-            GitCommitTree tree = new GitCommitTree();
+            A_GitCommitTree tree = new A_GitCommitTree();
             tree.setCurrentBranch(master);
             tree.getBranches().add(master);
             //save GitCommitTree class
@@ -35,7 +31,7 @@ public class CommandInit {
             file = new File(Utils.POINT_GITLET_STAGE_PATH);
             file.mkdir();
             //
-            StageModel stageModel = new StageModel();
+            A_StageModel stageModel = new A_StageModel();
             file = new File(Utils.POINT_GITLET_STAGE_MODEL_PATH);
             Utils.writeObject(file, stageModel);
 

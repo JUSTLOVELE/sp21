@@ -1,10 +1,7 @@
 package gitlet;
 
 
-import gitlet.persistence.stage.StageModel;
-
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.*;
 
 public class CommandAdd {
 
@@ -17,38 +14,38 @@ public class CommandAdd {
         File file = new File(Utils.BASE_PATH + "/" + fileName);
 
         if(!file.exists()) {
+            System.out.println("File does not exist.");
             return ;
         }
 
         try {
 
+            File stageFile = new File(Utils.POINT_GITLET_STAGE_PATH + "/" + fileName);
+
+            if(!stageFile.exists()) {
+                stageFile.createNewFile();
+            }
+
             FileInputStream fis = new FileInputStream(file);
-            byte[] data = new byte[fis.readAllBytes().length];
-            fis.read(data);
+            FileOutputStream fos = new FileOutputStream(stageFile);
+            byte[] bytes=new byte[1024];
+            int len;
+
+            while((len=fis.read(bytes)) != -1){
+                fos.write(bytes,0,len);
+            }
+
+            fos.close();
             fis.close();
-            StageModel stageModel = Utils.readObject(new File(Utils.POINT_GITLET_STAGE_MODEL_PATH), StageModel.class);
+            A_StageModel stageModel = Utils.readObject(new File(Utils.POINT_GITLET_STAGE_MODEL_PATH), A_StageModel.class);
+            A_Blob blob = new A_Blob();
+            blob.setFileName(fileName);
+            blob.setCompleteFileName(fileName);
+            stageModel.getNameToBlob().put(fileName, blob);
+            // save StageModel Object
+            file = new File(Utils.POINT_GITLET_STAGE_MODEL_PATH);
+            Utils.writeObject(file, stageModel);
 
-
-            //保存信息到StageModel中,若存在则删除已有文件
-
-            // 把文件保存到stage目录下
-
-            //持久化StageModel对象
-
-
-//            File file = new File(Utils.BASE_PATH + "/abcd.docx");
-//            System.out.println(file.isFile());
-//            System.out.println(file.exists());
-//            System.out.println(file.length());
-//            FileInputStream fis = new FileInputStream(file);
-//            System.out.println(fis.available());
-//            byte[] data = new byte[fis.readAllBytes().length];
-//            System.out.println(data.length);
-//            fis.read(data);
-//            System.out.println(data.length);
-//
-//            File f = new File(Utils.GITLET_PATH + "/abcd");
-//            Utils.writeObject(f, data);
         }catch (Exception e) {
             e.printStackTrace();
         }

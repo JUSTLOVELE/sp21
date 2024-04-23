@@ -1,17 +1,15 @@
-package gitlet.persistence;
+package gitlet;
 
-
-import gitlet.Commit;
 
 import java.io.Serializable;
 
-public class Branch implements Serializable {
+public class A_Branch implements Serializable {
 
     private String name;
 
     private Commit header;
 
-    public Branch(String name) {
+    public A_Branch(String name) {
         this.name = name;
     }
 
