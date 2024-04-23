@@ -20,6 +20,9 @@ public class Main {
                 // TODO: handle the `add [filename]` command
                 CommandAdd.add(args[1]);
                 break;
+            case "commit":
+                CommandCommit.commit(args[1]);
+                break;
             // TODO: FILL THE REST IN
         }
     }

@@ -9,7 +9,17 @@ public class A_Blob implements Serializable {
 
     private String fileName;
 
-    private String completeFileName;
+    private String blobFileName;
+
+    private String hashCode;
+
+    public String getHashCode() {
+        return hashCode;
+    }
+
+    public void setHashCode(String hashCode) {
+        this.hashCode = hashCode;
+    }
 
     public String getFileName() {
         return fileName;
@@ -19,11 +29,11 @@ public class A_Blob implements Serializable {
         this.fileName = fileName;
     }
 
-    public String getCompleteFileName() {
-        return completeFileName;
+    public String getBlobFileName() {
+        return blobFileName;
     }
 
-    public void setCompleteFileName(String completeFileName) {
-        this.completeFileName = completeFileName;
+    public void setBlobFileName(String blobFileName) {
+        this.blobFileName = blobFileName;
     }
 }

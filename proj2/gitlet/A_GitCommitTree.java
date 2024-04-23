@@ -11,7 +11,6 @@ public class A_GitCommitTree implements Serializable {
 
     private A_Branch currentBranch;
 
-
     public List<A_Branch> getBranches() {
         return branches;
     }

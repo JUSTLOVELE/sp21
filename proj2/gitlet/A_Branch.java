@@ -9,6 +9,8 @@ public class A_Branch implements Serializable {
 
     private Commit header;
 
+    private A_StageRegion stageRegion = new A_StageRegion();
+
     public A_Branch(String name) {
         this.name = name;
     }
@@ -28,5 +30,13 @@ public class A_Branch implements Serializable {
 
     public void setHeader(Commit header) {
         this.header = header;
+    }
+
+    public A_StageRegion getStageRegion() {
+        return stageRegion;
+    }
+
+    public void setStageRegion(A_StageRegion stageRegion) {
+        this.stageRegion = stageRegion;
     }
 }

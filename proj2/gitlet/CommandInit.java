@@ -30,10 +30,9 @@ public class CommandInit {
             //create stage
             file = new File(Utils.POINT_GITLET_STAGE_PATH);
             file.mkdir();
-            //
-            A_StageModel stageModel = new A_StageModel();
-            file = new File(Utils.POINT_GITLET_STAGE_MODEL_PATH);
-            Utils.writeObject(file, stageModel);
+            //create blobs
+            file = new File(Utils.POINT_GITLET_BLOBS_PATH);
+            file.mkdir();
 
         }else{
             System.out.println("A Gitlet version-control system already exists in current directory.");

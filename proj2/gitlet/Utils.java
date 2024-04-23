@@ -34,9 +34,9 @@ class Utils {
 
     public static final String POINT_GITLET_TREE_PATH = POINT_GITLET_PATH + "/GitTreeModel";
 
-    public static final String POINT_GITLET_STAGE_MODEL_PATH = POINT_GITLET_PATH + "/StageModel";
-
     public static final String POINT_GITLET_STAGE_PATH = POINT_GITLET_PATH + "/stage";
+
+    public static final String POINT_GITLET_BLOBS_PATH = POINT_GITLET_PATH + "/blobs";
 
     public static final String GITLET_PATH = BASE_PATH + "/gitlet";
 

@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class A_StageModel implements Serializable {
+public class A_StageRegion implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -15,7 +15,4 @@ public class A_StageModel implements Serializable {
         return nameToBlob;
     }
 
-    public void setNameToBlob(Map<String, A_Blob> nameToBlob) {
-        this.nameToBlob = nameToBlob;
-    }
 }
